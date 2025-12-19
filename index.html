@@ -1089,19 +1089,19 @@
         <section class="glass-panel input-section">
             <div class="input-grid">
                 <div class="input-wrapper">
-                    <label for="inputA">A</label>
+                    <label for="inputA">DD</label>
                     <input type="number" id="inputA" class="floating-input" placeholder="22" value="22">
                 </div>
                 <div class="input-wrapper">
-                    <label for="inputB">B</label>
+                    <label for="inputB">MM</label>
                     <input type="number" id="inputB" class="floating-input" placeholder="12" value="12">
                 </div>
                 <div class="input-wrapper">
-                    <label for="inputC">C</label>
+                    <label for="inputC">YY</label>
                     <input type="number" id="inputC" class="floating-input" placeholder="18" value="18">
                 </div>
                 <div class="input-wrapper">
-                    <label for="inputD">D</label>
+                    <label for="inputD">YY</label>
                     <input type="number" id="inputD" class="floating-input" placeholder="87" value="87">
                 </div>
             </div>
@@ -1194,28 +1194,65 @@
         };
 
         /**
+         * Count the number of negative values in a matrix
+         */
+        const countNegatives = (matrix) => {
+            return matrix.flat().filter(val => val < 0).length;
+        };
+
+        /**
          * Find the optimal value of i that makes all 16 numbers unique
-         * Search outward from 0: 0, 1, -1, 2, -2, 3, -3, ...
+         * and minimizes the number of negative values (preferring all positive)
+         * Search strategy: Expand from 0, then pick the best candidate
          */
         const findOptimalI = (A, B, C, D, maxRange = 100) => {
-            // Start with i = 0
-            if (allUnique(generateMatrix(A, B, C, D, 0))) {
-                return 0;
+            // Collect all valid candidates with their negative count
+            const candidates = [];
+
+            // Test i = 0
+            const matrix0 = generateMatrix(A, B, C, D, 0);
+            if (allUnique(matrix0)) {
+                const negCount = countNegatives(matrix0);
+                if (negCount === 0) return 0; // Perfect solution!
+                candidates.push({ i: 0, negatives: negCount });
             }
 
-            // Expand outward
+            // Expand outward from 0
             for (let delta = 1; delta <= maxRange; delta++) {
-                // Try positive
-                if (allUnique(generateMatrix(A, B, C, D, delta))) {
-                    return delta;
+                // Try positive delta
+                const matrixPos = generateMatrix(A, B, C, D, delta);
+                if (allUnique(matrixPos)) {
+                    const negCount = countNegatives(matrixPos);
+                    if (negCount === 0) return delta; // Perfect solution!
+                    candidates.push({ i: delta, negatives: negCount });
                 }
-                // Try negative
-                if (allUnique(generateMatrix(A, B, C, D, -delta))) {
-                    return -delta;
+
+                // Try negative delta
+                const matrixNeg = generateMatrix(A, B, C, D, -delta);
+                if (allUnique(matrixNeg)) {
+                    const negCount = countNegatives(matrixNeg);
+                    if (negCount === 0) return -delta; // Perfect solution!
+                    candidates.push({ i: -delta, negatives: negCount });
                 }
             }
 
-            return null; // No solution found
+            // No candidates found
+            if (candidates.length === 0) {
+                return null;
+            }
+
+            // Sort candidates by:
+            // 1. Fewest negatives first
+            // 2. Smallest absolute value of i (tie-breaker, prefer closer to 0)
+            candidates.sort((a, b) => {
+                if (a.negatives !== b.negatives) {
+                    return a.negatives - b.negatives;
+                }
+                return Math.abs(a.i) - Math.abs(b.i);
+            });
+
+            // Return the best candidate
+            return candidates[0].i;
         };
 
         /**
