@@ -12,6 +12,31 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cdefs%3E%3ClinearGradient id='cursorGrad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%2300f5ff'/%3E%3Cstop offset='100%25' style='stop-color:%23a855f7'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath fill='url(%23cursorGrad)' stroke='%23ffffff' stroke-width='1' d='M5.5 3.21V20.8l4.64-4.73 2.95 6.22 2.69-1.27-2.95-6.22h6.36L5.5 3.21z'/%3E%3C/svg%3E"), auto;
+            /* Firefox scrollbar */
+            scrollbar-width: thin;
+            scrollbar-color: var(--neon-purple) var(--void-dark);
+        }
+
+        /* Custom Scrollbar (Webkit) */
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--void-dark);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--neon-purple), var(--neon-magenta));
+            border-radius: 5px;
+            border: 2px solid var(--void-dark);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, var(--neon-cyan), var(--neon-purple));
         }
 
         :root {
@@ -23,11 +48,7 @@
             --neon-magenta: #ff00ff;
             --neon-purple: #a855f7;
             --neon-pink: #f472b6;
-            --neon-orange: #fb923c;
-            --neon-green: #22c55e;
-            --neon-yellow: #facc15;
             --neon-blue: #3b82f6;
-            --neon-red: #ef4444;
             --text-primary: #e2e8f0;
             --text-muted: #64748b;
             --error-red: #ff4757;
@@ -563,29 +584,25 @@
             box-shadow: 0 0 20px rgba(249, 115, 22, 0.6);
         }
 
-        .cell.corner-color {
-            background: linear-gradient(135deg, #f97316, #ea580c);
-            box-shadow: 0 0 20px rgba(249, 115, 22, 0.6);
-        }
-
+        .cell.corner-color,
         .cell.center-color {
             background: linear-gradient(135deg, #f97316, #ea580c);
             box-shadow: 0 0 20px rgba(249, 115, 22, 0.6);
         }
 
         .cell.quadrant-1 {
-            background: linear-gradient(135deg, #ef4444, #dc2626);
-            box-shadow: 0 0 20px rgba(239, 68, 68, 0.6);
+            background: linear-gradient(135deg, #ff2d2d, #e61919);
+            box-shadow: 0 0 20px rgba(255, 45, 45, 0.7);
         }
 
         .cell.quadrant-2 {
-            background: linear-gradient(135deg, #22c55e, #16a34a);
-            box-shadow: 0 0 20px rgba(34, 197, 94, 0.6);
+            background: linear-gradient(135deg, #00ff88, #00dd77);
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.7);
         }
 
         .cell.quadrant-3 {
             background: linear-gradient(135deg, #3b82f6, #2563eb);
-            box-shadow: 0 0 20px rgba(59, 130, 246, 0.6);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.7);
         }
 
         .cell.quadrant-4 {
@@ -607,18 +624,6 @@
 
         .cell.row-4 {
             animation-delay: calc(0.6s + var(--col) * 0.05s);
-        }
-
-        @keyframes cellPop {
-            0% {
-                opacity: 0;
-                transform: scale(0.5) rotateX(45deg);
-            }
-
-            100% {
-                opacity: 1;
-                transform: scale(1) rotateX(0);
-            }
         }
 
         /* Floating Particles */
@@ -999,23 +1004,23 @@
         }
 
         .combo-sum-badge.quadrant-1 {
-            background: rgba(239, 68, 68, 0.2);
-            color: #ef4444;
-            border: 1px solid rgba(239, 68, 68, 0.4);
+            background: rgba(255, 45, 45, 0.2);
+            color: #ff2d2d;
+            border: 1px solid rgba(255, 45, 45, 0.4);
         }
 
         .combo-sum-badge.quadrant-1 .color-dot {
-            background: linear-gradient(135deg, #ef4444, #dc2626);
+            background: linear-gradient(135deg, #ff2d2d, #e61919);
         }
 
         .combo-sum-badge.quadrant-2 {
-            background: rgba(34, 197, 94, 0.2);
-            color: #22c55e;
-            border: 1px solid rgba(34, 197, 94, 0.4);
+            background: rgba(0, 255, 136, 0.2);
+            color: #00ff88;
+            border: 1px solid rgba(0, 255, 136, 0.4);
         }
 
         .combo-sum-badge.quadrant-2 .color-dot {
-            background: linear-gradient(135deg, #22c55e, #16a34a);
+            background: linear-gradient(135deg, #00ff88, #00dd77);
         }
 
         .combo-sum-badge.quadrant-3 {
@@ -1180,11 +1185,7 @@
         }
 
         /* Special colors for corners, center */
-        .combo-cell.corner-color {
-            background: linear-gradient(135deg, #f97316, #ea580c);
-            box-shadow: 0 0 15px rgba(249, 115, 22, 0.5);
-        }
-
+        .combo-cell.corner-color,
         .combo-cell.center-color {
             background: linear-gradient(135deg, #f97316, #ea580c);
             box-shadow: 0 0 15px rgba(249, 115, 22, 0.5);
@@ -1192,18 +1193,18 @@
 
         /* Quadrant gradient colors */
         .combo-cell.quadrant-1 {
-            background: linear-gradient(135deg, #ef4444, #dc2626);
-            box-shadow: 0 0 15px rgba(239, 68, 68, 0.5);
+            background: linear-gradient(135deg, #ff2d2d, #e61919);
+            box-shadow: 0 0 15px rgba(255, 45, 45, 0.6);
         }
 
         .combo-cell.quadrant-2 {
-            background: linear-gradient(135deg, #22c55e, #16a34a);
-            box-shadow: 0 0 15px rgba(34, 197, 94, 0.5);
+            background: linear-gradient(135deg, #00ff88, #00dd77);
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.6);
         }
 
         .combo-cell.quadrant-3 {
             background: linear-gradient(135deg, #3b82f6, #2563eb);
-            box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.6);
         }
 
         .combo-cell.quadrant-4 {
@@ -1264,12 +1265,7 @@
             border: 1px solid rgba(249, 115, 22, 0.4);
         }
 
-        .sum-badge.corner-color {
-            background: rgba(249, 115, 22, 0.2);
-            color: #f97316;
-            border: 1px solid rgba(249, 115, 22, 0.4);
-        }
-
+        .sum-badge.corner-color,
         .sum-badge.center-color {
             background: rgba(249, 115, 22, 0.2);
             color: #f97316;
@@ -1277,15 +1273,15 @@
         }
 
         .sum-badge.quadrant-1 {
-            background: rgba(239, 68, 68, 0.2);
-            color: #ef4444;
-            border: 1px solid rgba(239, 68, 68, 0.4);
+            background: rgba(255, 45, 45, 0.2);
+            color: #ff2d2d;
+            border: 1px solid rgba(255, 45, 45, 0.4);
         }
 
         .sum-badge.quadrant-2 {
-            background: rgba(34, 197, 94, 0.2);
-            color: #22c55e;
-            border: 1px solid rgba(34, 197, 94, 0.4);
+            background: rgba(0, 255, 136, 0.2);
+            color: #00ff88;
+            border: 1px solid rgba(0, 255, 136, 0.4);
         }
 
         .sum-badge.quadrant-3 {
@@ -1415,10 +1411,6 @@
                 <div class="info-badge magic-sum">
                     <span class="label">Magic Sum</span>
                     <span class="value" id="magicSum">—</span>
-                </div>
-                <div class="info-badge i-value">
-                    <span class="label">Variable i</span>
-                    <span class="value" id="iValue">—</span>
                 </div>
             </div>
 
@@ -1697,7 +1689,6 @@
                 this.resultSection = document.getElementById('resultSection');
                 this.magicSquare = document.getElementById('magicSquare');
                 this.magicSumDisplay = document.getElementById('magicSum');
-                this.iValueDisplay = document.getElementById('iValue');
 
                 // Combo navigator elements
                 this.comboNavigator = document.getElementById('comboNavigator');
@@ -1907,7 +1898,6 @@
 
                 // Update info badges
                 this.magicSumDisplay.textContent = magicSum;
-                this.iValueDisplay.textContent = iValue >= 0 ? `+${iValue}` : iValue;
 
                 // Render cells with staggered animation
                 matrix.forEach((row, rowIndex) => {
