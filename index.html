@@ -118,18 +118,39 @@
         .header h1 {
             font-size: 2.5rem;
             font-weight: 700;
-            background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple), var(--neon-magenta));
+            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-purple), var(--neon-magenta), var(--neon-cyan));
+            background-size: 300% 100%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             margin-bottom: 0.5rem;
             letter-spacing: -1px;
+            animation: gradientShift 4s ease-in-out infinite;
+            text-shadow: 0 0 40px rgba(0, 245, 255, 0.3);
+        }
+
+        @keyframes gradientShift {
+
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
         }
 
         .header p {
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             color: var(--text-muted);
             font-weight: 300;
+            opacity: 0.9;
+        }
+
+        .header .highlight-text {
+            color: var(--neon-cyan);
+            font-weight: 600;
         }
 
         /* Glass Panel */
@@ -181,25 +202,43 @@
             font-weight: 700;
             text-align: center;
             padding: 1rem;
-            background: rgba(0, 0, 0, 0.3);
-            border: 2px solid rgba(100, 150, 255, 0.2);
+            background: rgba(0, 0, 0, 0.4);
+            border: 2px solid rgba(100, 150, 255, 0.25);
             border-radius: 1rem;
             color: var(--text-primary);
             outline: none;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             width: 100%;
+            position: relative;
+        }
+
+        .floating-input:hover {
+            border-color: rgba(100, 150, 255, 0.4);
+            background: rgba(0, 0, 0, 0.5);
         }
 
         .floating-input:focus {
             border-color: var(--neon-cyan);
+            background: rgba(0, 20, 30, 0.6);
             box-shadow:
-                0 0 20px rgba(0, 245, 255, 0.2),
+                0 0 25px rgba(0, 245, 255, 0.3),
+                0 0 50px rgba(0, 245, 255, 0.1),
                 inset 0 0 20px rgba(0, 245, 255, 0.05);
+            transform: translateY(-2px);
         }
 
         .floating-input::placeholder {
             color: var(--text-muted);
             font-weight: 400;
+        }
+
+        .input-wrapper label {
+            transition: all 0.3s ease;
+        }
+
+        .input-wrapper:focus-within label {
+            color: var(--neon-magenta);
+            text-shadow: 0 0 10px rgba(255, 0, 255, 0.5);
         }
 
         /* Manifest Button */
@@ -217,7 +256,7 @@
             color: var(--neon-cyan);
             cursor: pointer;
             overflow: hidden;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .manifest-btn::before {
@@ -227,28 +266,80 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 245, 255, 0.3), transparent);
-            transition: left 0.5s ease;
+            background: linear-gradient(90deg, transparent, rgba(0, 245, 255, 0.4), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .manifest-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle, rgba(0, 245, 255, 0.3), transparent 70%);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
         }
 
         .manifest-btn:hover {
             background: linear-gradient(135deg, rgba(0, 245, 255, 0.2), rgba(168, 85, 247, 0.2));
             box-shadow:
-                0 0 30px rgba(0, 245, 255, 0.3),
-                0 0 60px rgba(168, 85, 247, 0.2);
-            transform: translateY(-2px);
+                0 0 30px rgba(0, 245, 255, 0.4),
+                0 0 60px rgba(168, 85, 247, 0.3),
+                0 0 90px rgba(0, 245, 255, 0.1);
+            transform: translateY(-3px) scale(1.02);
+            border-color: var(--neon-magenta);
         }
 
         .manifest-btn:hover::before {
             left: 100%;
         }
 
+        .manifest-btn:hover::after {
+            width: 300px;
+            height: 300px;
+        }
+
         .manifest-btn:active {
-            transform: translateY(0);
+            transform: translateY(-1px) scale(0.98);
         }
 
         .manifest-btn.glowing {
-            animation: neonPulse 0.6s ease-out;
+            animation: neonPulse 0.8s ease-out;
+        }
+
+        .manifest-btn.loading {
+            pointer-events: none;
+            animation: loadingPulse 1.2s ease-in-out infinite;
+        }
+
+        .manifest-btn.loading::before {
+            animation: loadingSweep 1s linear infinite;
+            left: -100%;
+        }
+
+        @keyframes loadingPulse {
+
+            0%,
+            100% {
+                box-shadow: 0 0 20px rgba(0, 245, 255, 0.4);
+            }
+
+            50% {
+                box-shadow: 0 0 40px rgba(0, 245, 255, 0.6), 0 0 80px rgba(168, 85, 247, 0.4);
+            }
+        }
+
+        @keyframes loadingSweep {
+            0% {
+                left: -100%;
+            }
+
+            100% {
+                left: 100%;
+            }
         }
 
         @keyframes neonPulse {
@@ -257,7 +348,7 @@
             }
 
             50% {
-                box-shadow: 0 0 60px rgba(0, 245, 255, 0.8), 0 0 100px rgba(168, 85, 247, 0.5);
+                box-shadow: 0 0 80px rgba(0, 245, 255, 0.9), 0 0 120px rgba(168, 85, 247, 0.6);
             }
 
             100% {
@@ -383,14 +474,53 @@
             border: 2px solid rgba(100, 150, 255, 0.2);
             border-radius: 0.75rem;
             color: var(--text-primary);
-            transition: all 0.3s ease;
-            animation: cellPop 0.5s ease-out backwards;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: cellMagicReveal 0.7s cubic-bezier(0.4, 0, 0.2, 1) backwards;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cell::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle, rgba(0, 245, 255, 0.3), transparent 70%);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.5s ease, height 0.5s ease;
+            z-index: 0;
         }
 
         .cell:hover {
             border-color: var(--neon-cyan);
-            box-shadow: 0 0 20px rgba(0, 245, 255, 0.2);
-            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(0, 245, 255, 0.3), 0 0 50px rgba(0, 245, 255, 0.1);
+            transform: scale(1.08) translateY(-2px);
+        }
+
+        .cell:hover::before {
+            width: 150%;
+            height: 150%;
+        }
+
+        @keyframes cellMagicReveal {
+            0% {
+                opacity: 0;
+                transform: scale(0.3) rotateY(90deg);
+                filter: blur(10px);
+            }
+
+            50% {
+                filter: blur(2px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1) rotateY(0);
+                filter: blur(0);
+            }
         }
 
         /* Main square highlighted cells */
@@ -434,13 +564,13 @@
         }
 
         .cell.corner-color {
-            background: linear-gradient(135deg, #fbbf24, #f59e0b);
-            box-shadow: 0 0 20px rgba(251, 191, 36, 0.6);
+            background: linear-gradient(135deg, #f97316, #ea580c);
+            box-shadow: 0 0 20px rgba(249, 115, 22, 0.6);
         }
 
         .cell.center-color {
-            background: linear-gradient(135deg, #fbbf24, #f59e0b);
-            box-shadow: 0 0 20px rgba(251, 191, 36, 0.6);
+            background: linear-gradient(135deg, #f97316, #ea580c);
+            box-shadow: 0 0 20px rgba(249, 115, 22, 0.6);
         }
 
         .cell.quadrant-1 {
@@ -459,8 +589,8 @@
         }
 
         .cell.quadrant-4 {
-            background: linear-gradient(135deg, #f59e0b, #d97706);
-            box-shadow: 0 0 20px rgba(245, 158, 11, 0.6);
+            background: linear-gradient(135deg, #f97316, #ea580c);
+            box-shadow: 0 0 20px rgba(249, 115, 22, 0.6);
         }
 
         .cell.row-1 {
@@ -489,6 +619,162 @@
                 opacity: 1;
                 transform: scale(1) rotateX(0);
             }
+        }
+
+        /* Floating Particles */
+        .floating-particle {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            background: var(--neon-cyan);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -1;
+            animation: floatUp 8s linear infinite;
+            opacity: 0;
+        }
+
+        .floating-particle:nth-child(2n) {
+            background: var(--neon-purple);
+            animation-duration: 10s;
+        }
+
+        .floating-particle:nth-child(3n) {
+            background: var(--neon-magenta);
+            animation-duration: 12s;
+            width: 3px;
+            height: 3px;
+        }
+
+        .floating-particle:nth-child(4n) {
+            background: var(--neon-pink);
+            animation-duration: 9s;
+        }
+
+        @keyframes floatUp {
+            0% {
+                opacity: 0;
+                transform: translateY(100vh) scale(0);
+            }
+
+            10% {
+                opacity: 0.8;
+                transform: translateY(90vh) scale(1);
+            }
+
+            90% {
+                opacity: 0.6;
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateY(-10vh) scale(0.5);
+            }
+        }
+
+        /* Loading Overlay */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 10, 15, 0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .loading-overlay.visible {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .loading-content {
+            text-align: center;
+        }
+
+        .magic-loader {
+            width: 80px;
+            height: 80px;
+            position: relative;
+            margin: 0 auto 1.5rem;
+        }
+
+        .magic-loader::before,
+        .magic-loader::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 3px solid transparent;
+            border-top-color: var(--neon-cyan);
+            border-radius: 50%;
+            animation: spinLoader 1.2s linear infinite;
+        }
+
+        .magic-loader::after {
+            border-top-color: var(--neon-magenta);
+            animation-duration: 0.8s;
+            animation-direction: reverse;
+            transform: scale(0.7);
+        }
+
+        @keyframes spinLoader {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .loading-text {
+            font-size: 1rem;
+            color: var(--text-primary);
+            animation: pulseText 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulseText {
+
+            0%,
+            100% {
+                opacity: 0.7;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        /* History Quote Section */
+        .history-quote {
+            margin-top: 2rem;
+            padding: 1.5rem 2rem;
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(0, 245, 255, 0.05));
+            border: 1px solid rgba(168, 85, 247, 0.2);
+            border-radius: 1rem;
+            text-align: center;
+            max-width: 600px;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .history-quote p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            font-style: italic;
+        }
+
+        .history-quote .highlight {
+            color: var(--neon-cyan);
+            font-weight: 600;
+            font-style: normal;
         }
 
         /* Row/Column Sum Labels */
@@ -702,14 +988,14 @@
 
         .combo-sum-badge.corner-color,
         .combo-sum-badge.center-color {
-            background: rgba(251, 191, 36, 0.2);
-            color: #fbbf24;
-            border: 1px solid rgba(251, 191, 36, 0.4);
+            background: rgba(249, 115, 22, 0.2);
+            color: #f97316;
+            border: 1px solid rgba(249, 115, 22, 0.4);
         }
 
         .combo-sum-badge.corner-color .color-dot,
         .combo-sum-badge.center-color .color-dot {
-            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            background: linear-gradient(135deg, #f97316, #ea580c);
         }
 
         .combo-sum-badge.quadrant-1 {
@@ -743,13 +1029,13 @@
         }
 
         .combo-sum-badge.quadrant-4 {
-            background: rgba(245, 158, 11, 0.2);
-            color: #f59e0b;
-            border: 1px solid rgba(245, 158, 11, 0.4);
+            background: rgba(249, 115, 22, 0.2);
+            color: #f97316;
+            border: 1px solid rgba(249, 115, 22, 0.4);
         }
 
         .combo-sum-badge.quadrant-4 .color-dot {
-            background: linear-gradient(135deg, #f59e0b, #d97706);
+            background: linear-gradient(135deg, #f97316, #ea580c);
         }
 
         /* ============================================ */
@@ -777,7 +1063,7 @@
         .combinations-header h2 {
             font-size: 1.8rem;
             font-weight: 700;
-            background: linear-gradient(135deg, var(--neon-orange), var(--neon-yellow), var(--neon-green));
+            background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple), var(--neon-magenta));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -895,13 +1181,13 @@
 
         /* Special colors for corners, center */
         .combo-cell.corner-color {
-            background: linear-gradient(135deg, #fbbf24, #f59e0b);
-            box-shadow: 0 0 15px rgba(251, 191, 36, 0.5);
+            background: linear-gradient(135deg, #f97316, #ea580c);
+            box-shadow: 0 0 15px rgba(249, 115, 22, 0.5);
         }
 
         .combo-cell.center-color {
-            background: linear-gradient(135deg, #fbbf24, #f59e0b);
-            box-shadow: 0 0 15px rgba(251, 191, 36, 0.5);
+            background: linear-gradient(135deg, #f97316, #ea580c);
+            box-shadow: 0 0 15px rgba(249, 115, 22, 0.5);
         }
 
         /* Quadrant gradient colors */
@@ -921,8 +1207,8 @@
         }
 
         .combo-cell.quadrant-4 {
-            background: linear-gradient(135deg, #f59e0b, #d97706);
-            box-shadow: 0 0 15px rgba(245, 158, 11, 0.5);
+            background: linear-gradient(135deg, #f97316, #ea580c);
+            box-shadow: 0 0 15px rgba(249, 115, 22, 0.5);
         }
 
         /* Sum badge inside cards */
@@ -979,15 +1265,15 @@
         }
 
         .sum-badge.corner-color {
-            background: rgba(251, 191, 36, 0.2);
-            color: #fbbf24;
-            border: 1px solid rgba(251, 191, 36, 0.4);
+            background: rgba(249, 115, 22, 0.2);
+            color: #f97316;
+            border: 1px solid rgba(249, 115, 22, 0.4);
         }
 
         .sum-badge.center-color {
-            background: rgba(251, 191, 36, 0.2);
-            color: #fbbf24;
-            border: 1px solid rgba(251, 191, 36, 0.4);
+            background: rgba(249, 115, 22, 0.2);
+            color: #f97316;
+            border: 1px solid rgba(249, 115, 22, 0.4);
         }
 
         .sum-badge.quadrant-1 {
@@ -1009,9 +1295,9 @@
         }
 
         .sum-badge.quadrant-4 {
-            background: rgba(245, 158, 11, 0.2);
-            color: #f59e0b;
-            border: 1px solid rgba(245, 158, 11, 0.4);
+            background: rgba(249, 115, 22, 0.2);
+            color: #f97316;
+            border: 1px solid rgba(249, 115, 22, 0.4);
         }
 
         /* Footer Attribution */
@@ -1075,6 +1361,17 @@
 </head>
 
 <body>
+    <!-- Floating Particles Background -->
+    <div id="floatingParticles"></div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="loading-content">
+            <div class="magic-loader"></div>
+            <div class="loading-text">Summoning the Magic...</div>
+        </div>
+    </div>
+
     <!-- Animated Stars Background -->
     <div class="stars" id="stars"></div>
 
@@ -1082,7 +1379,8 @@
         <!-- Header -->
         <header class="header">
             <h1>✦ Ramanujan Magic Square ✦</h1>
-            <p>Algebraic elegance in a 4×4 grid — Every row, column, and diagonal sums to perfection</p>
+            <p>Experience the <span class="highlight-text">mathematical poetry</span> of <span
+                    class="highlight-text">Ramanujan's</span> legendary 4×4 grid</p>
         </header>
 
         <!-- Input Panel -->
@@ -1154,6 +1452,12 @@
                 <!-- Combination cards will be dynamically generated -->
             </div>
         </section>
+
+        <!-- History Quote Section -->
+        <div class="history-quote">
+            <p>This magic square was engraved on <span class="highlight">Ramanujan's house</span>, built in 1912 — the
+                top row encodes his birthday: <span class="highlight">December 22, 1887</span></p>
+        </div>
 
         <!-- Footer -->
         <footer class="footer">
@@ -1425,6 +1729,7 @@
             init() {
                 this.manifestBtn.addEventListener('click', () => this.manifest());
                 this.generateStars();
+                this.generateFloatingParticles();
 
                 // Enter key support for inputs
                 Object.values(this.inputs).forEach(input => {
@@ -1544,6 +1849,31 @@
                     star.style.animationDuration = `${2 + Math.random() * 2}s`;
                     starsContainer.appendChild(star);
                 }
+            }
+
+            generateFloatingParticles() {
+                const particlesContainer = document.getElementById('floatingParticles');
+                const particleCount = 25;
+
+                for (let i = 0; i < particleCount; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'floating-particle';
+                    particle.style.left = `${Math.random() * 100}%`;
+                    particle.style.animationDelay = `${Math.random() * 8}s`;
+                    particlesContainer.appendChild(particle);
+                }
+            }
+
+            showLoading() {
+                const overlay = document.getElementById('loadingOverlay');
+                overlay.classList.add('visible');
+                this.manifestBtn.classList.add('loading');
+            }
+
+            hideLoading() {
+                const overlay = document.getElementById('loadingOverlay');
+                overlay.classList.remove('visible');
+                this.manifestBtn.classList.remove('loading');
             }
 
             getInputValues() {
@@ -1700,9 +2030,9 @@
                     return;
                 }
 
-                // Success! Generate the matrix
+                // Show loading animation
+                this.showLoading();
                 this.hideError();
-                this.triggerGlow();
 
                 const matrix = generateMatrix(A, B, C, D, optimalI);
                 const magicSum = A + B + C + D;
@@ -1711,15 +2041,20 @@
                 this.currentMatrix = matrix;
                 this.currentMagicSum = magicSum;
 
-                // Render with a slight delay for effect
+                // Render after loading effect (800ms for dramatic effect)
                 setTimeout(() => {
-                    this.renderMatrix(matrix, magicSum, optimalI);
+                    this.hideLoading();
+                    this.triggerGlow();
 
-                    // Render combinations after a short delay
                     setTimeout(() => {
-                        this.renderCombinations(matrix, magicSum);
-                    }, 500);
-                }, 100);
+                        this.renderMatrix(matrix, magicSum, optimalI);
+
+                        // Render combinations after a short delay
+                        setTimeout(() => {
+                            this.renderCombinations(matrix, magicSum);
+                        }, 500);
+                    }, 100);
+                }, 800);
             }
         }
 
